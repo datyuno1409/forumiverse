@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import Navigation from "../components/Navigation";
@@ -7,15 +6,20 @@ import BlogPostView from "../components/BlogPostView";
 import { Button } from "../components/ui/button";
 import { Plus } from "lucide-react";
 import { BlogPost } from "../types/blog";
+import { Post, postService } from '../services/post.service';
+import { EditPostModal } from '../components/EditPostModal';
+import { useToast } from '../hooks/use-toast';
 
 const GameBlog = () => {
   const { gameId } = useParams();
   const [isCreating, setIsCreating] = useState(false);
-  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [editingPost, setEditingPost] = useState<Post | null>(null);
+  const toast = useToast();
 
   const handleSubmit = (formData: FormData) => {
     // In a real app, this would be an API call
-    const newPost: BlogPost = {
+    const newPost: Post = {
       id: posts.length + 1,
       gameId: Number(gameId),
       title: formData.get('title') as string,
@@ -27,6 +31,29 @@ const GameBlog = () => {
 
     setPosts([newPost, ...posts]);
     setIsCreating(false);
+  };
+
+  const handleEdit = (post: Post) => {
+    setEditingPost(post);
+  };
+
+  const handleDelete = async (postId: string) => {
+    if (!window.confirm('Bạn có chắc chắn muốn xóa bài viết này?')) {
+      return;
+    }
+
+    try {
+      await postService.deletePost(postId);
+      setPosts(posts.filter(post => post.id !== postId));
+      toast.success('Bài viết đã được xóa thành công!');
+    } catch (error) {
+      toast.error('Có lỗi xảy ra khi xóa bài viết');
+    }
+  };
+
+  const handlePostUpdated = () => {
+    // Refresh posts after update
+    fetchPosts();
   };
 
   return (
@@ -55,7 +82,18 @@ const GameBlog = () => {
 
             <div className="space-y-6">
               {posts.map(post => (
-                <BlogPostView key={post.id} post={post} />
+                <div key={post.id} className="post-card">
+                  <h2>{post.title}</h2>
+                  <p>{post.content}</p>
+                  <div className="post-actions">
+                    <button onClick={() => handleEdit(post)}>
+                      Chỉnh sửa
+                    </button>
+                    <button onClick={() => handleDelete(post.id)}>
+                      Xóa
+                    </button>
+                  </div>
+                </div>
               ))}
               {posts.length === 0 && !isCreating && (
                 <div className="text-center text-gray-500 py-8">
@@ -78,6 +116,15 @@ const GameBlog = () => {
           </div>
         </div>
       </main>
+
+      {editingPost && (
+        <EditPostModal
+          post={editingPost}
+          isOpen={!!editingPost}
+          onClose={() => setEditingPost(null)}
+          onPostUpdated={handlePostUpdated}
+        />
+      )}
     </div>
   );
 };
