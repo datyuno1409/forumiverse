@@ -2,40 +2,48 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
-import { MessageSquare, User, Shield } from "lucide-react";
+import { Search } from "lucide-react";
+
+type UserRole = "admin" | "user" | "guest";
 
 const Navigation = () => {
   // Temporarily hardcoded - will be replaced with actual auth
-  const userRole = "guest";
+  const userRole: UserRole = "guest";
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-white bg-opacity-90 backdrop-blur-md border-b z-50">
+    <nav className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
       <div className="container mx-auto px-4">
         <div className="h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-2">
-            <MessageSquare className="h-6 w-6 text-accent" />
-            <span className="text-xl font-semibold text-secondary">Forum</span>
-          </Link>
-          
-          <div className="flex items-center space-x-4">
-            {userRole === "admin" && (
-              <Button variant="outline" className="flex items-center space-x-2">
-                <Shield className="h-4 w-4" />
-                <span>Admin</span>
-              </Button>
-            )}
+          {/* Logo and main navigation */}
+          <div className="flex items-center space-x-8">
+            <Link to="/" className="flex items-center">
+              <span className="text-xl font-bold text-green-600">GAME</span>
+              <span className="text-xl font-bold text-gray-800">HAYVL</span>
+            </Link>
             
-            {userRole === "guest" ? (
-              <div className="flex items-center space-x-2">
-                <Button variant="ghost">Sign In</Button>
-                <Button>Sign Up</Button>
-              </div>
-            ) : (
-              <Button variant="outline" className="flex items-center space-x-2">
-                <User className="h-4 w-4" />
-                <span>Profile</span>
-              </Button>
-            )}
+            <div className="hidden md:flex items-center space-x-6">
+              <Link to="/" className="font-medium hover:text-green-600 transition-colors">
+                HOME
+              </Link>
+              <Link to="/game" className="font-medium hover:text-green-600 transition-colors">
+                GAME
+              </Link>
+              <Link to="/app" className="font-medium hover:text-green-600 transition-colors">
+                APP
+              </Link>
+            </div>
+          </div>
+
+          {/* Search bar */}
+          <div className="relative w-72">
+            <input
+              type="text"
+              placeholder="Tìm kiếm..."
+              className="w-full pl-4 pr-10 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            />
+            <button className="absolute right-2 top-1/2 -translate-y-1/2">
+              <Search className="h-5 w-5 text-gray-400" />
+            </button>
           </div>
         </div>
       </div>
