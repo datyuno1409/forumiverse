@@ -17,8 +17,8 @@ const Navigation = () => {
           {/* Logo and main navigation */}
           <div className="flex items-center space-x-8">
             <Link to="/" className="flex items-center">
-              <span className="text-xl font-bold text-green-600">GAME</span>
-              <span className="text-xl font-bold text-gray-800">HAYVL</span>
+              <span className="text-xl font-bold text-green-600">MODE</span>
+              <span className="text-xl font-bold text-gray-800">GICUNGCO</span>
             </Link>
             
             <div className="hidden md:flex items-center space-x-6">

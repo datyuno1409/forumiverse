@@ -34,10 +34,10 @@ const Index = () => {
           {/* Main content */}
           <div className="col-span-12 lg:col-span-8">
             <div className="bg-white p-6 rounded-lg shadow-sm mb-8">
-              <h1 className="text-2xl font-bold text-center mb-4">GAMEHAYVL.com</h1>
+              <h1 className="text-2xl font-bold text-center mb-4">MODEGICUNGCO.com</h1>
               <h2 className="text-lg text-center mb-6">Game, App APK miễn phí</h2>
               <p className="text-gray-600 mb-4">
-                Chào mừng đến với GAMEHAYVL - Trang tổng hợp, tin tức và đánh giá ứng dụng Android miễn phí tốt nhất, 
+                Chào mừng đến với MODEGICUNGCO - Trang tổng hợp, tin tức và đánh giá ứng dụng Android miễn phí tốt nhất, 
                 nơi bạn có thể khám phá không giới hạn các ứng dụng, game APK mà bạn yêu thích.
               </p>
               <p className="text-center text-red-500 font-semibold">
